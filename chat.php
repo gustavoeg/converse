@@ -21,10 +21,10 @@
 
 
 
-
-
   // Give the bot something to listen for.
   $botman->hears(strtolower('Hola'), function (BotMan $bot) {
+
+    $bot->startConversation(new InicioConversation);
     //esquema de pregunta con opciones
     $question = Question::create('Sobre que tema desea consultar?')
     ->fallback('Unable to continue...')
@@ -42,7 +42,8 @@
     if ($answer->isInteractiveMessageReply()) {
         $selectedValue = $answer->getValue(); // will be either 'yes' or 'no'
         $selectedText = $answer->getText(); // will be either 'Of course' or 'Hell no!'
-
+        //$bot->say('Seleccionada');
+        $this->say('Seleccionada Opcion');
         switch ($selectedValue) {
             case '1':
                 # code...
