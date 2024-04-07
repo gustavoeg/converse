@@ -1,10 +1,10 @@
 <?php
-  require_once 'vendor/autoload.php';
-
-  //use BotMan\BotMan\BotMan;
-  //use BotMan\BotMan\BotManFactory;
+  namespace conversaciones;
+  require_once '../vendor/autoload.php';
+  use BotMan\BotMan\BotMan;
+  use BotMan\BotMan\BotManFactory;
+  use BotMan\BotMan\Drivers\DriverManager;
   use BotMan\BotMan\Messages\Conversations\Conversation;
-  //use BotMan\BotMan\Drivers\DriverManager;
   use BotMan\BotMan\Messages\Incoming\Answer;
   //use BotMan\BotMan\Messages\Outgoing\Actions\Button;
   //use BotMan\BotMan\Messages\Outgoing\Question;
