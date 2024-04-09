@@ -6,7 +6,8 @@
     <title>Simple chat bot</title>
 </head>
 <body>
-    <h1>Simple Chat bot botman</h1>
+    <h3>Botman demo</h3>
+    <p>Demo de Botman sin el uso de botman studio</p>
 
     <script>
         var botmanWidget = {
