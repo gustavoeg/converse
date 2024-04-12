@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple chat bot</title>
+    <style>
+        body{
+            background-color: black;
+        }
+    </style>
 </head>
 <body>
     <h3>Botman demo</h3>
