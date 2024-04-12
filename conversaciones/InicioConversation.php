@@ -20,11 +20,13 @@ class InicioConversation extends Conversation
         ->fallback('Unable to continue...')
         ->callbackId('create_database')
         ->addButtons([
-            Button::create('Opcion ayuda 1')->value('1'),
-            Button::create('Opcion ayuda 2')->value('2'),
-            Button::create('Opcion ayuda 3')->value('3'),
-            Button::create('Opcion ayuda 4')->value('4'),
-            Button::create('Opcion ayuda 5')->value('5')
+            Button::create('Leyes usuales')->value('1'), //Enlace web
+            Button::create('Guía Judicial')->value('2'),
+            Button::create('Dependencias Judiciales')->value('3'), //Todas las defensorias, fiscalías, juzgados de 1ra instancia (x localidad, horario domicilio, tel, funcionarios, reseña)
+            Button::create('Dependencias de Apoyo')->value('4'),
+            Button::create('Denuncias')->value('5'),  //Armar arbol -y descripcion- (no está en pagina)
+            Button::create('Trámites')->value('6'),  //Juzgado de paz
+            Button::create('Novedades... (ELECTORAL)')->value('7')
         ]);
 
     $this->ask($question, function (Answer $answer, $conv) {
@@ -32,30 +34,38 @@ class InicioConversation extends Conversation
     if ($answer->isInteractiveMessageReply()) {
         $selectedValue = $answer->getValue(); // will be either 'yes' or 'no'
         $selectedText = $answer->getText(); // will be either 'Of course' or 'Hell no!'
-        $conv->say('Seleccionada: getText()' . $selectedText . ' getValue(): ' . $selectedValue);
-        //$this->say('Seleccionada Opcion');
+
         switch ($selectedValue) {
             case '1':
                 # code...
-                $conv->say('Seleccionada Opcion 1');
+                $conv->say('Las leyes usuales se encuentran en el siguiente enlace <a href="https://www.jussantacruz.gob.ar/index.php/normativa-juridica/leyes-usuales" target="_blank">https://www.jussantacruz.gob.ar/index.php/normativa-juridica/leyes-usuales</a>');
                 break;
 
             case '2':
                 # code...
-                $conv->say('Seleccionada Opcion 2');
+                $conv->say('Seleccionada Guía Judicial');
                 break;
 
             case '3':
                 # code...
-                $conv->say('Seleccionada Opcion 3');
+                $conv->say('Seleccionada Dependencias Judiciales');
                 break;
             case '4':
                 # code...
-                $conv->say('Seleccionada Opcion 4');
+                $conv->say('Seleccionada Dependencias de Apoyo');
                 break;
             case '5':
                 # code...
-                $conv->say('Seleccionada Opcion 5');
+                $conv->say('Seleccionada Denuncias');
+                break;
+            case '6':
+                # code...
+                $conv->say('Seleccionada Trámites');
+                break;
+                
+            case '7':
+                # code...
+                $conv->say('Seleccionada Novedades... (ELECTORAL)');
                 break;
             
             default:
