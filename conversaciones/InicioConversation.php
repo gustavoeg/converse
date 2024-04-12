@@ -6,6 +6,7 @@
   use BotMan\BotMan\Messages\Incoming\Answer;
   use BotMan\BotMan\Messages\Outgoing\Actions\Button;
   use BotMan\BotMan\Messages\Outgoing\Question;
+  require_once 'DependenciaConversacion.php';
 
 class InicioConversation extends Conversation
 {
@@ -39,6 +40,7 @@ class InicioConversation extends Conversation
             case '1':
                 # code...
                 $conv->say('Las leyes usuales se encuentran en el siguiente enlace <a href="https://www.jussantacruz.gob.ar/index.php/normativa-juridica/leyes-usuales" target="_blank">https://www.jussantacruz.gob.ar/index.php/normativa-juridica/leyes-usuales</a>');
+                $this->returnOrExit($conv);
                 break;
 
             case '2':
@@ -48,7 +50,8 @@ class InicioConversation extends Conversation
 
             case '3':
                 # code...
-                $conv->say('Seleccionada Dependencias Judiciales');
+                $conv->say('Por favor, seleccione la Dependencia Judicial');
+                $conv->getBot()->startConversation(new DependenciaConversacion());
                 break;
             case '4':
                 # code...
@@ -77,13 +80,40 @@ class InicioConversation extends Conversation
     });
     }
 
-    public function askEmail()
-    {
-        return $this->ask('One more thing - what is your email?', function(Answer $answer) {
-            // Save result
-            $this->email = $answer->getText();
-
-            $this->say('Great - that is all we need, '.$this->firstname);
+    private function returnOrExit($conversation){
+        
+        $question = Question::create("¿Deseas realizar otras consultas?")
+            ->fallback('Unable to ask question')
+            ->callbackId('ask_reason')
+            ->addButtons([
+                Button::create('Si')->value('si'),
+                Button::create('No')->value('no'),
+            ]);
+            
+        $this->ask($question, function (Answer $answer) use($conversation) {
+            if ($answer->isInteractiveMessageReply()) {
+                if ($answer->getValue() === 'si') {
+                    $this->getBot()->startConversation(new $conversation());
+                    
+                } elseif ($answer->getValue() === 'no'){
+                    $this->say('Despedida...');
+                }else{
+                    //respuesta desconocida
+                    $this->say('Respuesta desconocida...');
+                }
+            }else{
+                //no es respuesta interactiva, ver si es de teclado
+                if (strtolower($answer->getValue()) === 'si') {
+                    $this->getBot()->startConversation(new $conversation());
+                    
+                } elseif (strtolower( $answer->getValue()) === 'no'){
+                    $this->say('Despedida...');
+                }else{
+                    //respuesta desconocida
+                    $this->say('Respuesta desconocida...');
+                }
+                
+            }
         });
     }
 
