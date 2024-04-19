@@ -5,6 +5,8 @@
    use BotMan\BotMan\BotMan;
    use BotMan\BotMan\BotManFactory;
    use BotMan\BotMan\Drivers\DriverManager;
+
+   use Wit\Wit;
    
    require_once 'conversaciones/InicioConversation.php';
 
@@ -33,6 +35,10 @@
 });
 
 $botman->hears('clima en {location}', function ($bot,$location){
+    $bot->reply('Ingresaste: ' . $location);
+});
+
+$botman->hears('wit.ai', function ($bot,$location){
     $bot->reply('Ingresaste: ' . $location);
 });
 
