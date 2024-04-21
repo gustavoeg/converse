@@ -38,8 +38,8 @@ $botman->hears('clima en {location}', function ($bot,$location){
     $bot->reply('Ingresaste: ' . $location);
 });
 
-$botman->hears('wit.ai', function ($bot,$location){
-    $user_consulta = "Crear el contacto gustavo";
+$botman->hears('wit.ai', function ($bot){
+    $user_consulta = urlencode("Crear el contacto gustavo");
     $url = "https://api.wit.ai/message?v=20240304&q=" . $user_consulta;
     $token = "42OKHWM7P7YSJV4QYAWKBILFDE5HV5LA";
 $options = array('http' => array(
@@ -49,7 +49,7 @@ $options = array('http' => array(
 $context  = stream_context_create($options);
 $response = file_get_contents($url, false, $context);
 
-print_r($response);
+//print_r($response);
     $bot->reply('Ingresaste: ' . $response);
 });
 
