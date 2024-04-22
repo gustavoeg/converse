@@ -32,12 +32,7 @@ class DependenciaDAO {
         $statement->bindParam(':localidad', $id);
         $statement->execute();
 
-        //$row = $statement->fetch(\PDO::FETCH_ASSOC);
-
-        
-
         while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-            # code...
             $array[] = new DependenciaDTO($row['id'], $row['dependencia'], $row['autoridad'], $row['localidad'], $row['telefonos']);
         }
         if ($array) {
@@ -46,6 +41,27 @@ class DependenciaDAO {
 
         return null;
     }
+
+    /**
+     * Devuelve un array de string localidades
+     */
+    public function getLocalidades() {
+        $query = "SELECT distinct localidad FROM tsj.dependencias ORDER BY localidad ASC";
+        $statement = $this->connection->prepare($query);
+        //$statement->bindParam(':localidad', $id);
+        $statement->execute();
+
+        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+            $array[] = $row['localidad'];
+        }
+        if ($array) {
+            return $array;
+        }
+
+        return null;
+    }
+
+
 
     // Otros métodos para insertar, actualizar, eliminar usuarios, etc.
 }

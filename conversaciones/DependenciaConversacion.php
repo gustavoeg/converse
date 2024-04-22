@@ -8,6 +8,9 @@ use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\Question;
 require_once 'InicioConversation.php';
 
+require __DIR__.'/../datos/DependenciaDAO.php';
+require __DIR__.'/../datos/ConexionDB.php';
+
 class DependenciaConversacion extends Conversation
 {
     /**
@@ -22,22 +25,33 @@ class DependenciaConversacion extends Conversation
     }
 
     private function askDependencia(){
+        /**
+         * Parte dinámica, con consulta a la BD postgres meidante uso de clases DAO DTO
+         */
+
+        try {
+            $instance = \ConexionDB::getInstance();
+            // Crear una instancia del DAO
+            $dependenciaDAO = new \Datos\DependenciaDAO($instance->getConexion());
+
+            $localidades = $dependenciaDAO->getLocalidades();
+
+            if ($localidades) {
+                $i = 0;
+                foreach ($localidades as $localidad) {
+                    $i++;
+                    //$question->addButtons(Button::create($localidad)->value($i));
+                    $array[] = Button::create($localidad)->value($i);
+                }
+            } else {
+                echo "No hay localidades";
+            }
+        
+
         $question = Question::create('¿Sobre qué dependencia desea consultar?')
         ->fallback('No se pudo identificar la dependencia ingresada')
         ->callbackId('ask_reason')
-        ->addButtons([
-            Button::create('Protocolo Dependencias Judiciales')->value('1'),
-            Button::create('Cámara Civil - Río Gallegos')->value('2'),
-            Button::create('Cámara Civil - Caleta Olivia')->value('3'),
-            Button::create('Defensoría General ante el Excmo. TSJ')->value('4'),
-            Button::create('Defensoría Oficial de Puerto San Julián')->value('5'),
-            Button::create('Juzgado Civil Nº 1 Río Gallegos')->value('6'),
-            Button::create('Juzgado Civil Nº 2 Río Gallegos')->value('7'),
-            Button::create('Juzgado de Paz de Río Gallegos')->value('8'),
-            Button::create('Juzgado Civil y Familia - Las Heras')->value('9'),
-            Button::create('Juzgado de Recursos - Río Gallegos')->value('10'),
-            Button::create('Reg. Público de Comercio - El Calafate')->value('11'),
-        ]);
+        ->addButtons($array);
 
         $this->ask($question, function (Answer $answer, $conv) {
             // Detect if button was clicked:
@@ -88,6 +102,11 @@ class DependenciaConversacion extends Conversation
                 }
             }
             });
+
+        } catch (\PDOException $e) {
+            echo "Error de conexión: " . $e->getMessage();
+            $this->say("No hay localidades por consultar");
+        }
 
     }
 

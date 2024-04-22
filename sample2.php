@@ -3,17 +3,23 @@
 use Datos\DependenciaDAO;
 
 require './datos/DependenciaDAO.php';
-// Conexión a la base de datos
-$dsn = "pgsql:host=localhost;dbname=tsj";
-$username = "postgres";
-$password = "root";
+require './datos/ConexionDB.php';
 
 try {
-    $connection = new \PDO($dsn, $username, $password);
-    $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
+    $instance = ConexionDB::getInstance();
     // Crear una instancia del DAO
-    $dependenciaDAO = new DependenciaDAO($connection);
+    $dependenciaDAO = new DependenciaDAO($instance->getConexion());
+
+    $localidades = $dependenciaDAO->getLocalidades();
+    if ($localidades) {
+        foreach ($localidades as $localidad) {
+            echo "Localidad:" . $localidad;
+            echo "<br>";
+        }
+        
+    } else {
+        echo "no hay localidades";
+    }
 
     // Ejemplo de uso: Obtener un usuario por su ID
     $dependenciaLocalidad = "RIO GALLEGOS";

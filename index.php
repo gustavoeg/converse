@@ -7,6 +7,7 @@
     <style>
         body{
             background-color: black;
+            color:aliceblue;
         }
     </style>
 </head>
@@ -26,6 +27,6 @@
             bubbleAvatarUrl: '',
         }; 
     </script>
-        <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+    <script src='js/widget.js'></script>
 </body>
 </html>

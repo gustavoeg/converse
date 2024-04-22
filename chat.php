@@ -6,8 +6,7 @@
    use BotMan\BotMan\BotManFactory;
    use BotMan\BotMan\Drivers\DriverManager;
 
-   use Wit\Wit;
-   
+      
    require_once 'conversaciones/InicioConversation.php';
 
    $config = [
@@ -27,8 +26,6 @@
    $botman = BotManFactory::create($config, new SymfonyCache($adapter));
    
 
-   //$botman = BotManFactory::create($config);
-
   // Give the bot something to listen for.
   $botman->hears(strtolower('Hola'), function (BotMan $bot) {
     $bot->startConversation(new InicioConversation());
@@ -42,12 +39,12 @@ $botman->hears('wit.ai', function ($bot){
     $user_consulta = urlencode("Crear el contacto gustavo");
     $url = "https://api.wit.ai/message?v=20240304&q=" . $user_consulta;
     $token = "42OKHWM7P7YSJV4QYAWKBILFDE5HV5LA";
-$options = array('http' => array(
-    'method'  => 'GET',
-    'header' => 'Authorization: Bearer '.$token
-));
-$context  = stream_context_create($options);
-$response = file_get_contents($url, false, $context);
+    $options = array('http' => array(
+        'method'  => 'GET',
+        'header' => 'Authorization: Bearer '.$token
+    ));
+    $context  = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
 
 //print_r($response);
     $bot->reply('Ingresaste: ' . $response);
