@@ -1,26 +1,28 @@
 <?php
 ini_set('display_errors','1');
-require_once __DIR__.'/vendor/autoload.php';
-use Wit\Wit;
-$app = new Wit(array(
-    'default_access_token' => 'JBVDSLC5NERFEF5UZX3CAYAGQURZHTNI')
-);
 
-$response = $app->get('/intents');
-var_dump($response->getDecodedBody());
+$user_consulta = urlencode("Por favor crea el contacto Paul");
+    $url = "https://api.wit.ai/message?v=20240304&q=" . $user_consulta;
+    $token = "42OKHWM7P7YSJV4QYAWKBILFDE5HV5LA";
+    $options = array('http' => array(
+        'method'  => 'GET',
+        'header' => 'Authorization: Bearer '.$token
+    ));
+    $context  = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+    //print_r($response);
+    header('Content-Type: application/json; charset=utf-8');
+    //echo ($response);
+    print_r($response);
 
-$data = [
-    "name" => "flight_request",
-    "doc"  => "detect flight request",
-    "expressions" => [
-        ["body" => "fly from incheon to sfo"],
-        ["body" => "I want to fly from london to sfo"],
-        ["body" => "need a flight from paris to tokyo"],
-    ]
-];
+    $resultado = json_decode($response);
+    //echo $resultado->entities;
+    //print_r($resultado->entities);
 
-$response = $app->post('/intents', $data);
-var_dump($response->getDecodedBody());
+    print_r($resultado->entities);
+
+    //echo ($response->entities);
+    //echo ($response.entities);
 
 /* curl ^
   -H "Authorization: Bearer JBVDSLC5NERFEF5UZX3CAYAGQURZHTNI" ^
