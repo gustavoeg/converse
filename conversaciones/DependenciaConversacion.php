@@ -41,67 +41,42 @@ class DependenciaConversacion extends Conversation
                 foreach ($localidades as $localidad) {
                     $i++;
                     //$question->addButtons(Button::create($localidad)->value($i));
-                    $array[] = Button::create($localidad)->value($i);
+                    $array[] = Button::create($localidad)->value($localidad);
                 }
+                $question = Question::create('¿Sobre qué dependencia desea consultar?')
+                ->fallback('No se pudo identificar la dependencia ingresada')
+                ->callbackId('ask_reason')
+                ->addButtons($array);
+
+                $this->ask($question, function (Answer $answer, $conv) {
+                    // Detect if button was clicked:
+                    if ($answer->isInteractiveMessageReply()) {
+                        $selectedValue = $answer->getValue(); // will be either 'yes' or 'no'
+                        $selectedText = $answer->getText(); // will be either 'Of course' or 'Hell no!'
+                        $conv->say('Localidad seleccionada: ' . $answer);
+                        /* switch ($selectedValue) {
+                            case '1':
+                                # code...
+                                $conv->say('PDF con el protocolo disponible en página web.');
+                                $this->returnOrExit($conv);
+                                break;
+                
+                            case '2':
+                                # code...
+                                $conv->say('Cámara Civil - Río Gallegos. Domicilio: España esq. pasaje Feruglio. Dias no laborables (Feriados nacionales, provinciales y municipales – Río Gallegos 19 de Diciembre). Teléfono: 02966-420825');
+                                $this->returnOrExit($conv);
+                                break;
+                
+                            default:
+                                # code...
+                                $conv->say('No selecciono opcion valida');
+                                break;
+                        } */
+                    }
+                    });
             } else {
                 echo "No hay localidades";
             }
-        
-
-        $question = Question::create('¿Sobre qué dependencia desea consultar?')
-        ->fallback('No se pudo identificar la dependencia ingresada')
-        ->callbackId('ask_reason')
-        ->addButtons($array);
-
-        $this->ask($question, function (Answer $answer, $conv) {
-            // Detect if button was clicked:
-            if ($answer->isInteractiveMessageReply()) {
-                $selectedValue = $answer->getValue(); // will be either 'yes' or 'no'
-                $selectedText = $answer->getText(); // will be either 'Of course' or 'Hell no!'
-        
-                switch ($selectedValue) {
-                    case '1':
-                        # code...
-                        $conv->say('PDF con el protocolo disponible en página web.');
-                        $this->returnOrExit($conv);
-                        break;
-        
-                    case '2':
-                        # code...
-                        $conv->say('Cámara Civil - Río Gallegos. Domicilio: España esq. pasaje Feruglio. Dias no laborables (Feriados nacionales, provinciales y municipales – Río Gallegos 19 de Diciembre). Teléfono: 02966-420825');
-                        $this->returnOrExit($conv);
-                        break;
-        
-                    case '3':
-                        # code...
-                        $conv->say('Seleccionada Dependencias Judiciales');
-                        
-                        break;
-                    case '4':
-                        # code...
-                        $conv->say('Seleccionada Dependencias de Apoyo');
-                        break;
-                    case '5':
-                        # code...
-                        $conv->say('Seleccionada Denuncias');
-                        break;
-                    case '6':
-                        # code...
-                        $conv->say('Seleccionada Trámites');
-                        break;
-                        
-                    case '7':
-                        # code...
-                        $conv->say('Seleccionada Novedades... (ELECTORAL)');
-                        break;
-                    
-                    default:
-                        # code...
-                        $conv->say('No selecciono opcion valida');
-                        break;
-                }
-            }
-            });
 
         } catch (\PDOException $e) {
             echo "Error de conexión: " . $e->getMessage();

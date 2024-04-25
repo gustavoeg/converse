@@ -4,6 +4,7 @@ use Datos\DependenciaDAO;
 
 require './datos/DependenciaDAO.php';
 require './datos/ConexionDB.php';
+require 'consulta_ia.php';
 
 try {
     $instance = ConexionDB::getInstance();
@@ -42,3 +43,8 @@ try {
 } catch (\PDOException $e) {
     echo "Error de conexión: " . $e->getMessage();
 }
+
+$pregunta = "por favor borra el contacto omar";
+echo "Consulta a API IA:";
+$respuesta_api = preguntar_API_IA($pregunta);
+print_r($respuesta_api);

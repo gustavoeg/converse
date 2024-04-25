@@ -20,61 +20,57 @@ function preguntar_API_IA($pregunta){
         $response = file_get_contents($url, false, $context);
         $resultado = json_decode($response); //respuesta procesada
 
-
-        //echo "<br>texto ingresado: ";
-    //print_r($resultado->text);
-
-    //echo "<br>ACCION: ";
-    if(count($resultado->entities->{'tsj_action:tsj_action'}) > 0){
-        $accion_nombre = $resultado->entities->{'tsj_action:tsj_action'}[0]->value;
-        $accion_confianza = $resultado->entities->{'tsj_action:tsj_action'}[0]->confidence;
-    }else{
-        $accion_nombre = "";
-        $accion_confianza = "";
-    }
-    $accion = array('accion_nombre' => $accion_nombre, 'accion_confianza' => $accion_confianza);
+        //echo "<br>ACCION: ";
+        if(count($resultado->entities->{'tsj_action:tsj_action'}) > 0){
+            $accion_nombre = $resultado->entities->{'tsj_action:tsj_action'}[0]->value;
+            $accion_confianza = $resultado->entities->{'tsj_action:tsj_action'}[0]->confidence;
+        }else{
+            $accion_nombre = "";
+            $accion_confianza = "";
+        }
+        $accion = array('accion_nombre' => $accion_nombre, 'accion_confianza' => $accion_confianza);
 
 
-    //echo "<br>OBJETO: ";
-    if(count($resultado->entities->{'tsj_object:tsj_object'}) > 0){
-        //
-        $objeto_nombre = $resultado->entities->{'tsj_action:tsj_action'}[0]->value;
-        $objeto_confianza = $resultado->entities->{'tsj_action:tsj_action'}[0]->confidence;
-    }else{
-        $objeto_nombre = "";
-        $objeto_confianza = "";
-    }
-    $objeto = array('objeto_nombre' => $objeto_nombre, 'objeto_confianza' => $objeto_confianza);
+        //echo "<br>OBJETO: ";
+        if(count($resultado->entities->{'tsj_object:tsj_object'}) > 0){
+            //
+            $objeto_nombre = $resultado->entities->{'tsj_action:tsj_action'}[0]->value;
+            $objeto_confianza = $resultado->entities->{'tsj_action:tsj_action'}[0]->confidence;
+        }else{
+            $objeto_nombre = "";
+            $objeto_confianza = "";
+        }
+        $objeto = array('objeto_nombre' => $objeto_nombre, 'objeto_confianza' => $objeto_confianza);
 
-    //echo "<br>CUERPO: ";
-    if(count($resultado->entities->{'wit$message_body:message_body'}) > 0){
-        $cuerpo_nombre = $resultado->entities->{'wit$message_body:message_body'}[0]->value;
-        $cuerpo_confianza = $resultado->entities->{'wit$message_body:message_body'}[0]->confidence;
-    }else{
-        $cuerpo_nombre = "";
-        $cuerpo_confianza = "";
-    }
-    $cuerpo = array('cuerpo_nombre' => $cuerpo_nombre, 'cuerpo_confianza' => $cuerpo_confianza);
+        //echo "<br>CUERPO: ";
+        if(count($resultado->entities->{'wit$message_body:message_body'}) > 0){
+            $cuerpo_nombre = $resultado->entities->{'wit$message_body:message_body'}[0]->value;
+            $cuerpo_confianza = $resultado->entities->{'wit$message_body:message_body'}[0]->confidence;
+        }else{
+            $cuerpo_nombre = "";
+            $cuerpo_confianza = "";
+        }
+        $cuerpo = array('cuerpo_nombre' => $cuerpo_nombre, 'cuerpo_confianza' => $cuerpo_confianza);
 
-    if (count($resultado->intents) > 0) {
-        $intencion_nombre = $resultado->intents[0]->name;
-        $intencion_confianza = $resultado->intents[0]->confidence;
-    } else {
-        $intencion_nombre = "";
-        $intencion_confianza = "";
-    }
-    $intencion = array('intencion_nombre' => $intencion_nombre, 'intencion_confianza' => $intencion_confianza);
+        if (count($resultado->intents) > 0) {
+            $intencion_nombre = $resultado->intents[0]->name;
+            $intencion_confianza = $resultado->intents[0]->confidence;
+        } else {
+            $intencion_nombre = "";
+            $intencion_confianza = "";
+        }
+        $intencion = array('intencion_nombre' => $intencion_nombre, 'intencion_confianza' => $intencion_confianza);
 
-    if (count($resultado->traits) > 0){
-        $trait_nombre = $resultado->traits[0]->name;
-        $trait_confianza = $resultado->traits[0]->confidence;
-    }else{
-        $trait_nombre = "";
-        $trait_confianza = "";
-    }
-    $trait = array('trait_nombre' => $trait_nombre, 'trait_confianza' => $trait_confianza);
+        if (count($resultado->traits) > 0){
+            $trait_nombre = $resultado->traits[0]->name;
+            $trait_confianza = $resultado->traits[0]->confidence;
+        }else{
+            $trait_nombre = "";
+            $trait_confianza = "";
+        }
+        $trait = array('trait_nombre' => $trait_nombre, 'trait_confianza' => $trait_confianza);
 
-    $para_enviar = array($accion,$objeto,$cuerpo,$intencion,$trait);
+        $para_enviar = array($accion,$objeto,$cuerpo,$intencion,$trait);
     
     /* 
     echo "Tiene ". count($resultado->entities->{'tsj_action:tsj_action'}) . " accion/es <br>";
@@ -115,7 +111,7 @@ function preguntar_API_IA($pregunta){
         $para_enviar = "";
     }
     
-
+    return json_encode($para_enviar);
 
 }
 
@@ -124,7 +120,7 @@ function preguntar_API_IA($pregunta){
     //header('Content-Type: application/json; charset=utf-8');
     //echo ($response);
     //print_r($response);
-
+/*
     $prueba = '{
         "entities": {
           "tsj_action:tsj_action": [
@@ -234,7 +230,7 @@ function preguntar_API_IA($pregunta){
     echo "------------------------------------";
     print_r($response);
 
-
+*/
     
 
     //echo ($response->entities);
