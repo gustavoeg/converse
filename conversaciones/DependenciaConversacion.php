@@ -6,6 +6,7 @@ use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\Question;
+use Datos\DependenciaDAO;
 require_once 'InicioConversation.php';
 
 require __DIR__.'/../datos/DependenciaDAO.php';
@@ -48,39 +49,45 @@ class DependenciaConversacion extends Conversation
                 ->callbackId('ask_reason')
                 ->addButtons($array);
 
-                $this->ask($question, function (Answer $answer, $conv) {
+                $this->ask($question, function (Answer $answer, $conv){
                     // Detect if button was clicked:
                     if ($answer->isInteractiveMessageReply()) {
-                        $selectedValue = $answer->getValue(); // will be either 'yes' or 'no'
-                        $selectedText = $answer->getText(); // will be either 'Of course' or 'Hell no!'
-                        $conv->say('Localidad seleccionada: ' . $answer);
-                        /* switch ($selectedValue) {
-                            case '1':
-                                # code...
-                                $conv->say('PDF con el protocolo disponible en página web.');
-                                $this->returnOrExit($conv);
-                                break;
-                
-                            case '2':
-                                # code...
-                                $conv->say('Cámara Civil - Río Gallegos. Domicilio: España esq. pasaje Feruglio. Dias no laborables (Feriados nacionales, provinciales y municipales – Río Gallegos 19 de Diciembre). Teléfono: 02966-420825');
-                                $this->returnOrExit($conv);
-                                break;
-                
-                            default:
-                                # code...
-                                $conv->say('No selecciono opcion valida');
-                                break;
-                        } */
+                        //$selectedValue = $answer->getValue(); // will be either 'yes' or 'no'
+                        $selectedText = $answer->getText(); // will be either 'Of course' or 'Hell no!'//
+                        
+                        $dependenciaLocalidad_seleccionada = $answer->getValue(); //"RIO GALLEGOS";
+                        $instance = \ConexionDB::getInstance();
+                        $dependenciaDAO = new DependenciaDAO($instance->getConexion());
+                        $dependencias = $dependenciaDAO->getDependenciaByLocalidad($dependenciaLocalidad_seleccionada);
+                        //print_r($dependencias);
+                        $dependencia_texto = "";
+                        if ($dependencias) {
+                            $dependencia_texto = "Dependencias para " . $dependenciaLocalidad_seleccionada . "<br>";
+                            foreach ($dependencias as $dependencia) {
+                                //$dependencia_texto .= "Dependencia encontrada id:" . $dependencia->getId();
+                                $dependencia_texto .= "<br>" . $dependencia->getDependencia();
+                                //$dependencia_texto .= "<br>Dependencia localidad: " . $dependencia->getLocalidad();
+                                $dependencia_texto .= "<br>Autoridad: " . $dependencia->getAutoridad();
+                                $dependencia_texto .= "<br>Telefonos: " . $dependencia->getTelefonos();
+                                $dependencia_texto .= "<br><br>";
+                            }
+                            
+                        } else {
+                            $dependencia_texto .= "No se encontraron dependencias para " . $dependenciaLocalidad_seleccionada;
+                        }
+                        $conv->say($dependencia_texto);
+
+                        $this->returnOrExit($conv);  //preguntar para ir de nuevo al menu o terminar
+                        
                     }
                     });
             } else {
-                echo "No hay localidades";
+                $this->say("No hay localidades");
             }
 
         } catch (\PDOException $e) {
-            echo "Error de conexión: " . $e->getMessage();
-            $this->say("No hay localidades por consultar");
+            //echo "Error de conexión: " . $e->getMessage();
+            $this->say("Por el momento no puedo acceder a los datos");
         }
 
     }
