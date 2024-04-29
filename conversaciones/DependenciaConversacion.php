@@ -10,7 +10,7 @@ use Datos\DependenciaDAO;
 require_once 'InicioConversation.php';
 
 require __DIR__.'/../datos/DependenciaDAO.php';
-require __DIR__.'/../datos/ConexionDB.php';
+//require_once __DIR__.'/../datos/ConexionDB.php';
 
 class DependenciaConversacion extends Conversation
 {

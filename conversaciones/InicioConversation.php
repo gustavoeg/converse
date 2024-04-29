@@ -6,7 +6,9 @@
   use BotMan\BotMan\Messages\Incoming\Answer;
   use BotMan\BotMan\Messages\Outgoing\Actions\Button;
   use BotMan\BotMan\Messages\Outgoing\Question;
+  require_once __DIR__.'/../datos/ConexionDB.php';
   require_once 'DependenciaConversacion.php';
+  require_once 'TramiteJPConversacion.php';
 
 class InicioConversation extends Conversation
 {
@@ -63,7 +65,8 @@ class InicioConversation extends Conversation
                 break;
             case '6':
                 # code...
-                $conv->say('Seleccionada Trámites');
+                $conv->say('Por favor, seleccione el Trámite que desea realizar');
+                $conv->getBot()->startConversation(new TramiteJPConversacion());
                 break;
                 
             case '7':
