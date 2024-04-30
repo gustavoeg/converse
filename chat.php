@@ -24,6 +24,7 @@
    
    $adapter = new FilesystemAdapter();
    $botman = BotManFactory::create($config, new SymfonyCache($adapter));
+   $botman->typesAndWaits(1);
    
 
   // Give the bot something to listen for.
