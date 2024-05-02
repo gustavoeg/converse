@@ -27,6 +27,8 @@
             bubbleBackground: '#ff76f4',
             aboutText: '',
             bubbleAvatarUrl: '',
+            widgetOpenedEventData: '.',
+            sendWidgetOpenedEvent: true,
         }; 
     </script>
     <script src='js/widget.js'></script>

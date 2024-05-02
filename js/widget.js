@@ -1105,7 +1105,8 @@
                             e.state.wasChatOpened ||
                             (e.props.conf.sendWidgetOpenedEvent &&
                                 setTimeout(function () {
-                                    e.sendOpenEvent();
+                                    //e.sendOpenEvent(); //
+                                    botmanChatWidget.whisper('Hola');  //para que inicie la conversacion con hola sin que tenga que escribir.
                                 }, 500),
                             (t.wasChatOpened = !0)),
                             e.setState(t);
