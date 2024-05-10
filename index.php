@@ -14,15 +14,13 @@
 <body>
     <h3>Botman demo</h3>
     <p>Demo de Botman sin el uso de botman studio</p>
-    <br><br>Para comenzar pulsa <a href="#" onclick="botmanChatWidget.whisper('Hola');return false;"> aquí</a>
-    <br><br>O prueba diciendo "hola" &hellip;
 
     <script>
         var botmanWidget = {
             frameEndpoint: 'chat.html',
-            introMessage: 'Hola, soy tu asistente. Escribe "hola" para opciones.',
+            introMessage: 'Hola, soy tu asistente del TSJ. Para volver a acceder a este menú escribe "hola".',
             chatServer : 'chat.php', 
-            title: 'Mi asistente virtual', 
+            title: 'Asistente virtual TSJ', 
             mainColor: '#789ff5',
             bubbleBackground: '#ff76f4',
             aboutText: '',

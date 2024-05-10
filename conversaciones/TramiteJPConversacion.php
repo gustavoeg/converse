@@ -87,6 +87,7 @@ class TramiteJPConversacion extends Conversation
         } catch (\PDOException $e) {
             //echo "Error de conexión: " . $e->getMessage();
             $this->say("Por el momento no puedo acceder a los datos");
+            $this->say("Error de conexión: " . $e->getMessage());
         }
 
     }
