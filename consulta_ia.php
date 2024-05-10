@@ -90,7 +90,7 @@ function preguntar_API_IA($pregunta){
 
     } catch (\Exception $ex) {
         $para_enviar = array('error' => true);
-        //$para_enviar = $ex;
+        error_log(print_r($ex->getMessage(), true), 3, $_ENV['LOG_PATH']);
     }
     
     return json_encode($para_enviar);

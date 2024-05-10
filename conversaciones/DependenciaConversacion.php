@@ -86,8 +86,8 @@ class DependenciaConversacion extends Conversation
             }
 
         } catch (\PDOException $e) {
-            //echo "Error de conexión: " . $e->getMessage();
             $this->say("Por el momento no puedo acceder a los datos");
+            error_log(print_r($e->getMessage(), true), 3, $_ENV['LOG_PATH']);
         }
 
     }
