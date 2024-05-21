@@ -64,4 +64,24 @@ class DependenciaDAO {
 
 
     // Otros métodos para insertar, actualizar, eliminar usuarios, etc.
+    public function getPregunta($tipo,$localidad){
+        $tipo = strtoupper($tipo);
+        $localidad = strtoupper($localidad);
+        $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM tsj.dependencias 
+        WHERE localidad like '%$localidad%' and dependencia like '%$tipo%'";
+        //var_dump($query);
+        $statement = $this->connection->prepare($query);
+        //$statement->bindParam(':localidad', $localidad);
+        //$statement->bindParam(':tipo', $tipo);
+        $statement->execute();
+
+        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+            $array[] = new DependenciaDTO($row['id'], $row['dependencia'], $row['autoridad'], $row['localidad'], $row['telefonos']);
+        }
+        if (isset($array)) {
+            return $array;
+        }
+
+        return null;
+    }
 }

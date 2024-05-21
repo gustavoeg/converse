@@ -37,13 +37,14 @@ function preguntar_API_IA($pregunta){
         //echo "<br>OBJETO: ";
         if(count($resultado['entities']['tsj_dependencia:tsj_dependencia']) > 0){
             //
-            $objeto_nombre = $resultado['entities']['tsj_dependencia:tsj_dependencia'][0]['value'];
-            $objeto_confianza = $resultado['entities']['tsj_dependencia:tsj_dependencia'][0]['confidence'];
-            $objeto = array('dependencia nombre' => $objeto_nombre, 'objeto_confianza' => $objeto_confianza);
+            $dependencia_nombre = $resultado['entities']['tsj_dependencia:tsj_dependencia'][0]['value'];
+            $dependencia_confianza = $resultado['entities']['tsj_dependencia:tsj_dependencia'][0]['confidence'];
+            $dependencia_confianza = ((float )$dependencia_confianza) * 100;
+            $dependencia = array('dependencia_nombre' => $dependencia_nombre, 'dependencia_confianza' => $dependencia_confianza);
         }else{
-            $objeto_nombre = "";
-            $objeto_confianza = "";
-            $objeto = "";
+            $dependencia_nombre = "";
+            $dependencia_confianza = "";
+            $dependencia = "";
         }
 
         //echo "<br>Localidad: ";
@@ -51,24 +52,13 @@ function preguntar_API_IA($pregunta){
             //
             $objeto_nombre = $resultado['entities']['tsj_localidad:tsj_localidad'][0]['value'];
             $objeto_confianza = $resultado['entities']['tsj_localidad:tsj_localidad'][0]['confidence'];
-            $objeto = array('localidad_nombre' => $objeto_nombre, 'objeto_confianza' => $objeto_confianza);
+            $objeto_confianza = ((float )$objeto_confianza) * 100;
+            $objeto = array('localidad_nombre' => $objeto_nombre, 'localidad_confianza' => $objeto_confianza);
         }else{
             $objeto_nombre = "";
             $objeto_confianza = "";
             $objeto = "";
         }
-        
-
-        /* //echo "<br>CUERPO: ";
-        if(count($resultado['entities']['wit$message_body:message_body']) > 0){
-            $cuerpo_nombre = $resultado['entities']['wit$message_body:message_body'][0]['value'];
-            $cuerpo_confianza = $resultado['entities']['wit$message_body:message_body'][0]['confidence'];
-            $cuerpo = array('cuerpo_nombre' => $cuerpo_nombre, 'cuerpo_confianza' => $cuerpo_confianza);
-        }else{
-            $cuerpo_nombre = "";
-            $cuerpo_confianza = "";
-            $cuerpo = "";
-        } */
         
  
         if (count($resultado['intents']) > 0) {
@@ -94,11 +84,10 @@ function preguntar_API_IA($pregunta){
         
 
         $para_enviar = array(
-            'accion' => $accion,
-            'objeto' => $objeto,
-            //'cuerpo' => $cuerpo,
+            'tipo' => $accion,
+            'localidad' => $objeto,
+            'dependencia' => $dependencia,
             'intencion' => $intencion,
-            'trait' => $trait,
             'error' => false);
 
     } catch (\Exception $ex) {
