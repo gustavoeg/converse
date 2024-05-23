@@ -8,81 +8,86 @@
   use BotMan\BotMan\Messages\Outgoing\Question;
   require_once __DIR__.'/../datos/ConexionDB.php';
   require_once 'DependenciaConversacion.php';
-  require_once 'DenunciasConversacion.php';
   require_once 'TramiteJPConversacion.php';
-  //require 'consulta_ia.php'; //para consultas abiertas
+  require 'consulta_ia.php'; //para consultas abiertas
 
   use Datos\DependenciaDAO;
 
 
-class InicioConversation extends Conversation
+class DenunciasConversacion extends Conversation
 {
-    protected $firstname;
-
-    protected $email;
-
-    public function askMenuprincipal()
+    public function askMenuDenuncias()
     {
 
-        $question = Question::create('Sobre que tema desea consultar?')
-        ->fallback('Unable to continue...')
+        $question = Question::create('Qué denuncia desea realizar?')
+        ->fallback('No se puede continuar...')
         ->callbackId('create_database')
         ->addButtons([
-            Button::create('Leyes usuales')->value('1'), //Enlace web
-            Button::create('Guía Judicial')->value('2'),
-            Button::create('Dependencias Judiciales')->value('3'), //Todas las defensorias, fiscalías, juzgados de 1ra instancia (x localidad, horario domicilio, tel, funcionarios, reseña)
-            Button::create('Dependencias de Apoyo')->value('4'),
-            Button::create('Denuncias')->value('5'),  //Armar arbol -y descripcion- (no está en pagina)
-            Button::create('Trámites')->value('6'),  //Juzgado de paz
-            Button::create('Novedades... (ELECTORAL)')->value('7')
+            Button::create('Fuiste estafado')->value('1'), 
+            Button::create('Sos víctima')->value('2'),
+            Button::create('Tuviste un accidente')->value('3'),
+            Button::create('Sufriste abuso')->value('4'),
+            Button::create('problema con vecinos')->value('5'),
+            Button::create('Contratos')->value('6'), 
+            Button::create('Régimen de visitas')->value('7'),
+            Button::create('Cuota alimentaria')->value('8'), 
         ]);
 
     $this->ask($question, function (Answer $answer, $conv) {
     // Detect if button was clicked:
     if ($answer->isInteractiveMessageReply()) {
         $selectedValue = $answer->getValue(); // will be either 'yes' or 'no'
-        $selectedText = $answer->getText(); // will be either 'Of course' or 'Hell no!'
         
         switch ($selectedValue) {
             case '1':
                 # code...
-                $conv->say('Las leyes usuales se encuentran en el siguiente enlace <a href="https://www.jussantacruz.gob.ar/index.php/normativa-juridica/leyes-usuales" target="_blank">https://www.jussantacruz.gob.ar/index.php/normativa-juridica/leyes-usuales</a>');
+                $conv->say('Procedimiento para "Fuiste estafado"');
                 $this->returnOrExit($conv);
                 break;
 
             case '2':
                 # code...
-                $conv->say('Seleccionada Guía Judicial');
+                $conv->say('Procedimiento para "Sos víctima"');
+                $this->returnOrExit($conv);
                 break;
 
             case '3':
                 # code...
-                $conv->say('Por favor, seleccione la Dependencia Judicial');
-                $conv->getBot()->startConversation(new DependenciaConversacion());
+                $conv->say('Procedimiento para "Tuviste un accidente"');
+                $this->returnOrExit($conv);
                 break;
             case '4':
                 # code...
-                $conv->say('Seleccionada Dependencias de Apoyo');
+                $conv->say('Procedimiento para "Sufriste abuso"');
+                $this->returnOrExit($conv);
                 break;
             case '5':
                 # code...
-                $conv->say('Seleccionada Denuncias');
-                $conv->getBot()->startConversation(new DenunciasConversacion());
+                $conv->say('Procedimiento para "Problema con vecinos"');
+                $this->returnOrExit($conv);
                 break;
             case '6':
                 # code...
-                $conv->say('Por favor, seleccione el Trámite que desea realizar');
-                $conv->getBot()->startConversation(new TramiteJPConversacion());
+                $conv->say('Procedimiento para "Contratos"');
+                $this->returnOrExit($conv);
                 break;
                 
             case '7':
                 # code...
-                $conv->say('Seleccionada Novedades... (ELECTORAL)');
+                $conv->say('Procedimiento para "Régimen de visitas"');
+                $this->returnOrExit($conv);
+                break;
+
+            case '8':
+                # code...
+                $conv->say('Procedimiento para "Cuota alimentaria"');
+                $this->returnOrExit($conv);
                 break;
             
             default:
                 # code...
                 $conv->say('No selecciono opcion valida');
+                $this->returnOrExit($conv);
                 break;
         }
     }else{
@@ -169,6 +174,6 @@ class InicioConversation extends Conversation
     public function run()
     {
         // This will be called immediately
-        $this->askMenuprincipal();
+        $this->askMenuDenuncias();
     }
 }

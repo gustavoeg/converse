@@ -21,9 +21,10 @@ function preguntar_API_IA($pregunta){
         $response = file_get_contents($url, false, $context);
         $resultado = json_decode($response,true); //respuesta procesada
         //print_r($resultado);
- 
+
+        
         //echo "<br>ACCION: ";
-        if(count($resultado['entities']['tsj_direccion:tsj_direccion']) > 0){
+        if(array_key_exists("tsj_direccion:tsj_direccion",$resultado['entities'])){
             $accion_nombre = $resultado['entities']['tsj_direccion:tsj_direccion'][0]['value'];
             $accion_confianza = $resultado['entities']['tsj_direccion:tsj_direccion'][0]['confidence'];
             $accion = array('direccion' => $accion_nombre, 'accion_confianza' => $accion_confianza);
@@ -35,7 +36,8 @@ function preguntar_API_IA($pregunta){
         
 
         //echo "<br>OBJETO: ";
-        if(count($resultado['entities']['tsj_dependencia:tsj_dependencia']) > 0){
+        if(array_key_exists("tsj_dependencia:tsj_dependencia",$resultado['entities'])){
+        //if(count($resultado['entities']['tsj_dependencia:tsj_dependencia']) > 0){
             //
             $dependencia_nombre = $resultado['entities']['tsj_dependencia:tsj_dependencia'][0]['value'];
             $dependencia_confianza = $resultado['entities']['tsj_dependencia:tsj_dependencia'][0]['confidence'];
@@ -48,23 +50,30 @@ function preguntar_API_IA($pregunta){
         }
 
         //echo "<br>Localidad: ";
-        if(count($resultado['entities']['tsj_localidad:tsj_localidad']) > 0){
+        if(array_key_exists("tsj_localidad:tsj_localidad",$resultado['entities'])){
+        //if(count($resultado['entities']['tsj_localidad:tsj_localidad']) > 0){
             //
-            $objeto_nombre = $resultado['entities']['tsj_localidad:tsj_localidad'][0]['value'];
-            $objeto_confianza = $resultado['entities']['tsj_localidad:tsj_localidad'][0]['confidence'];
-            $objeto_confianza = ((float )$objeto_confianza) * 100;
-            $objeto = array('localidad_nombre' => $objeto_nombre, 'localidad_confianza' => $objeto_confianza);
+            $localidad_nombre = $resultado['entities']['tsj_localidad:tsj_localidad'][0]['value'];
+            $localidad_confianza = $resultado['entities']['tsj_localidad:tsj_localidad'][0]['confidence'];
+            $localidad_confianza = ((float )$localidad_confianza) * 100;
+            $localidad_ = array('localidad_nombre' => $localidad_nombre, 'localidad_confianza' => $localidad_confianza);
         }else{
-            $objeto_nombre = "";
-            $objeto_confianza = "";
-            $objeto = "";
+            $localidad_nombre = "";
+            $localidad_confianza = "";
+            $localidad_ = "";
         }
         
  
-        if (count($resultado['intents']) > 0) {
-            $intencion_nombre = $resultado['intents'][0]['name'];
-            $intencion_confianza = $resultado['intents'][0]['confidence'];
-            $intencion = array('intencion_nombre' => $intencion_nombre, 'intencion_confianza' => $intencion_confianza);
+        if(array_key_exists("intents",$resultado)){
+            if (count($resultado['intents']) > 0) {
+                $intencion_nombre = $resultado['intents'][0]['name'];
+                $intencion_confianza = $resultado['intents'][0]['confidence'];
+                $intencion = array('intencion_nombre' => $intencion_nombre, 'intencion_confianza' => $intencion_confianza);
+            } else {
+                $intencion_nombre = "";
+                $intencion_confianza = "";
+                $intencion = "";
+            }
         } else {
             $intencion_nombre = "";
             $intencion_confianza = "";
@@ -85,15 +94,17 @@ function preguntar_API_IA($pregunta){
 
         $para_enviar = array(
             'tipo' => $accion,
-            'localidad' => $objeto,
+            'localidad' => $localidad_,
             'dependencia' => $dependencia,
             'intencion' => $intencion,
+            'pregunta' => $pregunta,
             'error' => false);
-
+ 
     } catch (\Exception $ex) {
         $para_enviar = array('error' => true);
         error_log(print_r($ex->getMessage(), true), 3, $_ENV['LOG_PATH']);
     }
     
     return json_encode($para_enviar);
+    //return json_encode($resultado);
 }

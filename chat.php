@@ -32,11 +32,17 @@
     $bot->startConversation(new InicioConversation());
 });
 
-$botman->hears('clima en {location}', function ($bot,$location){
-    $bot->reply('Ingresaste: ' . $location);
-});
 
+/* $botman->hears('(.*)', function (BotMan $bot){
+    if(strtolower($bot->getMessage()->getText() ) == "hola"){
+        //iniciar conversación
+        $bot->startConversation(new InicioConversation());
+    }else{
+        $bot->reply($bot->getMessage()->getText() );
+    }
+}); */
 
+/* 
 $botman->hears('wit.ai', function ($bot){
     $user_consulta = urlencode("Crear el contacto gustavo");
     $url = "https://api.wit.ai/message?v=20240304&q=" . $user_consulta;
@@ -50,7 +56,7 @@ $botman->hears('wit.ai', function ($bot){
 
 //print_r($response);
     $bot->reply('Ingresaste: ' . $response);
-});
+}); */
 
 $botman->fallback(function($bot) {
     $bot->reply('No reconozco ese comando, por favor ingresa de nuevo como está escrito en las opciones');
