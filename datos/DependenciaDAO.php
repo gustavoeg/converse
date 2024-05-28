@@ -97,7 +97,7 @@ class DependenciaDAO {
             //echo("<h2>Localidad identificada: " . $r->localidad->localidad_nombre);
             //echo(" (" . ($r->localidad->localidad_confianza) . " %)</h2>");
             $tipo = strtoupper($tipo);
-            $localidad = strtoupper($localidad);
+            $localidad = $this->getLocalidadFromAPI(strtolower($localidad));
             $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM tsj.dependencias 
             WHERE localidad like '%$localidad%' and dependencia like '%$tipo%'";
             //var_dump($query);
@@ -120,61 +120,37 @@ class DependenciaDAO {
     public function getLocalidadFromAPI($loc_api){
         switch ($loc_api) {
             case 'gallegos':
-                $loc = "";
-                break;
-            case 'perito moreno':
-                $loc = "";
+                $loc = "RIO GALLEGOS";
                 break;
             case 'las heras':
-                $loc = "";
-                break;
-            case 'chalten':
-                $loc = "";
-                break;
-            case 'fitz roy':
-                $loc = "";
+                $loc = "LAS HERAS";
                 break;
             case 'truncado':
-                $loc = "";
-                break;
-            case '28 de noviembre':
-                $loc = "";
-                break;
-            case 'cañadon seco':
-                $loc = "";
+                $loc = "PICO TRUNCADO";
                 break;
             case 'piedra buena':
-                $loc = "";
+                $loc = "PIEDRABUENA";
                 break;
             case 'deseado':
-                $loc = "";
-                break;
-            case 'jaramillo':
-                $loc = "";
+                $loc = "PUERTO DESEADO";
                 break;
             case 'caleta':
-                $loc = "";
+                $loc = "CALETA OLIVIA";
                 break;
-            case 'gregores':
-                $loc = "";
-                break;
-            case 'el calafate':
-                $loc = "";
+            case 'calafate':
+                $loc = "EL CALAFATE";
                 break;
             case 'san julian':
-                $loc = "";
+                $loc = "PUERTO SAN JULIAN";
                 break;
-            case 'los antiguos':
-                $loc = "";
-                break;
-
             case 'turbio':
-                $loc = "";
+                $loc = "RIO TURBIO";
                 break;
             
             default:
-                $loc = $loc_api;
+                $loc = strtoupper($loc_api);
                 break;
         }
+        return $loc;
     }
 }
