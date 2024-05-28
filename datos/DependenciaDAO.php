@@ -116,4 +116,61 @@ class DependenciaDAO {
             return null;
         }
     }
+
+    public function getLocalidadFromAPI($loc_api){
+        switch ($loc_api) {
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            case 'gallegos':
+                $loc = "";
+                break;
+            
+            default:
+                $loc = $loc_api;
+                break;
+        }
+    }
 }
