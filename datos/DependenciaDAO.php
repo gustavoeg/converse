@@ -122,49 +122,53 @@ class DependenciaDAO {
             case 'gallegos':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'perito moreno':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'las heras':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'chalten':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'fitz roy':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'truncado':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case '28 de noviembre':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'cañadon seco':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'piedra buena':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'deseado':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'jaramillo':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'caleta':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'gregores':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'el calafate':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'san julian':
                 $loc = "";
                 break;
-            case 'gallegos':
+            case 'los antiguos':
+                $loc = "";
+                break;
+
+            case 'turbio':
                 $loc = "";
                 break;
             
