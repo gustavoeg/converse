@@ -10,6 +10,7 @@
   require_once 'DependenciaConversacion.php';
   require_once 'DenunciasConversacion.php';
   require_once 'TramiteJPConversacion.php';
+  require_once 'NovedadesConversacion.php';
   //require 'consulta_ia.php'; //para consultas abiertas
 
   use Datos\DependenciaDAO;
@@ -77,7 +78,8 @@ class InicioConversation extends Conversation
                 
             case '7':
                 # code...
-                $conv->say('Seleccionada Novedades... (ELECTORAL)');
+                $conv->say('Por favor, seleccione la Novedad para ampliar');
+                $conv->getBot()->startConversation(new NovedadesConversacion());
                 break;
             
             default:
