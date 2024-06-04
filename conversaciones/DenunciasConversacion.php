@@ -111,7 +111,7 @@ class DenunciasConversacion extends Conversation
 
     private function returnOrExit($conversation){
         
-        $question = Question::create("¿Deseas realizar otras consultas?")
+        $question = Question::create("¿Desea conocer sobre otras denuncias?")
             ->fallback('Unable to ask question')
             ->callbackId('ask_reason')
             ->addButtons([
@@ -125,7 +125,7 @@ class DenunciasConversacion extends Conversation
                 $this->getBot()->startConversation(new $conversation());
                 
             } elseif (strtolower($answer->getValue()) === 'no'){
-                $this->say('Fue un placer conversar. Si requiere mi ayuda de nuevo, solo vuelva a escribir "hola"...');
+                $this->getBot()->startConversation(new InicioConversation());
             }else{
                 //respuesta desconocida
                 $this->say('Respuesta desconocida...');

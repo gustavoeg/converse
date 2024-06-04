@@ -5,7 +5,6 @@
    use BotMan\BotMan\BotMan;
    use BotMan\BotMan\BotManFactory;
    use BotMan\BotMan\Drivers\DriverManager;
-
       
    require_once 'conversaciones/InicioConversation.php';
 
@@ -42,25 +41,10 @@
     }
 }); */
 
-/* 
-$botman->hears('wit.ai', function ($bot){
-    $user_consulta = urlencode("Crear el contacto gustavo");
-    $url = "https://api.wit.ai/message?v=20240304&q=" . $user_consulta;
-    $token = "42OKHWM7P7YSJV4QYAWKBILFDE5HV5LA";
-    $options = array('http' => array(
-        'method'  => 'GET',
-        'header' => 'Authorization: Bearer '.$token
-    ));
-    $context  = stream_context_create($options);
-    $response = file_get_contents($url, false, $context);
-
-//print_r($response);
-    $bot->reply('Ingresaste: ' . $response);
-}); */
 
 $botman->fallback(function($bot) {
-    $bot->reply('No reconozco ese comando, por favor ingresa de nuevo como está escrito en las opciones');
-    //Desculpe, no entendí. Escriba 'hola' para iniciar una conversación.
+    //para no estar diciendole al usuario que escribió mal y que ingrese 'hola' correctamente, le muestro el menú principal
+    $bot->startConversation(new InicioConversation());
 });
 
 // Start listening

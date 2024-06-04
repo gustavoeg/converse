@@ -27,10 +27,13 @@ class NovedadDAO {
     }
 
     /**
-     * Devuelve un array de novedades vigente (fecha_fin < hoy)
+     * Devuelve un array de novedades vigente (fecha_inicio < hoy() < fecha_fin)
      */
     public function getNovedades() {
-        $query = "SELECT id,fecha_inicio,fecha_fin,novedad,descripcion,tipo,enlace FROM tsj.novedads ORDER BY fecha_inicio ASC";
+        $query = "SELECT id,fecha_inicio,fecha_fin,novedad,descripcion,tipo,enlace FROM tsj.novedads
+        WHERE fecha_inicio <= now()
+        and fecha_fin >= now()
+        ORDER BY fecha_inicio ASC";
         $statement = $this->connection->prepare($query);
         
         $statement->execute();
@@ -38,7 +41,7 @@ class NovedadDAO {
         while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             $array[] = new NovedadDTO($row['id'], $row['fecha_inicio'], $row['fecha_fin'], $row['novedad'], $row['descripcion'], $row['tipo'], $row['enlace']);
         }
-        if ($array) {
+        if (isset($array)) {
             return $array;
         }
 

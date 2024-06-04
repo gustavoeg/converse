@@ -18,9 +18,6 @@
 
 class InicioConversation extends Conversation
 {
-    protected $firstname;
-
-    protected $email;
 
     public function askMenuprincipal()
     {
@@ -35,7 +32,7 @@ class InicioConversation extends Conversation
             Button::create('Dependencias de Apoyo')->value('4'),
             Button::create('Denuncias')->value('5'),  //Armar arbol -y descripcion- (no está en pagina)
             Button::create('Trámites')->value('6'),  //Juzgado de paz
-            Button::create('Novedades... (ELECTORAL)')->value('7')
+            Button::create('Novedades...')->value('7')
         ]);
 
     $this->ask($question, function (Answer $answer, $conv) {
@@ -54,6 +51,7 @@ class InicioConversation extends Conversation
             case '2':
                 # code...
                 $conv->say('Seleccionada Guía Judicial');
+                $this->returnOrExit($conv);
                 break;
 
             case '3':
@@ -64,6 +62,7 @@ class InicioConversation extends Conversation
             case '4':
                 # code...
                 $conv->say('Seleccionada Dependencias de Apoyo');
+                $this->returnOrExit($conv);
                 break;
             case '5':
                 # code...
