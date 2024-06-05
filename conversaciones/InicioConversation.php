@@ -11,9 +11,9 @@
   require_once 'DenunciasConversacion.php';
   require_once 'TramiteJPConversacion.php';
   require_once 'NovedadesConversacion.php';
-  //require 'consulta_ia.php'; //para consultas abiertas
+  require_once __DIR__.'/../consulta_ia.php'; //para consultas abiertas
 
-  use Datos\DependenciaDAO;
+//  use Datos\DependenciaDAO;
 
 
 class InicioConversation extends Conversation
@@ -95,7 +95,7 @@ class InicioConversation extends Conversation
         $respuesta_api = preguntar_API_IA($selectedText);
 
         //procesamiento de la respuesta del api y se obtiene la respuesta en texto para ser mostrado en la conversacion
-        $dependencia_texto = $this->textoRespuestaAPI($respuesta_api);
+        $dependencia_texto = textoRespuestaDependenciaAPI($respuesta_api);
 
         $conv->say($dependencia_texto);
         
@@ -135,7 +135,7 @@ class InicioConversation extends Conversation
      * evalua los items necesarios y realiza la consulta a la BD
      * arma y prepara el texto con la respuesta que será visible en la convsersacion.
      */
-    private function textoRespuestaAPI($respuesta_api){
+/*     private function textoRespuestaDependenciaAPI($respuesta_api){
         $resp_json = json_decode($respuesta_api);
         $dependencia_texto = "";
         if(isset($resp_json->dependencia->dependencia_nombre) && isset($resp_json->localidad->localidad_nombre)){
@@ -166,7 +166,7 @@ class InicioConversation extends Conversation
         }
         return $dependencia_texto;
     }
-
+ */
     public function run()
     {
         // This will be called immediately

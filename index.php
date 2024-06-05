@@ -21,12 +21,14 @@
             introMessage: 'Hola, soy tu asistente del TSJ. Para volver a acceder a este menú escribe "hola".',
             chatServer : '/converse/chat.php', 
             title: 'Asistente virtual TSJ', 
-            mainColor: '#789ff5',
-            bubbleBackground: '#ff76f4',
+            mainColor: '#29415c',
+            headerTextColor: "#fff",
+            bubbleBackground: '#fff',
             aboutText: '',
-            bubbleAvatarUrl: '',
+            bubbleAvatarUrl: '/converse/resources/chat.png',
             widgetOpenedEventData: '.',
             sendWidgetOpenedEvent: true,
+            placeholderText: 'Escribe una consulta...',
         }; 
     </script>
     <script src='/converse/js/widget.js'></script>

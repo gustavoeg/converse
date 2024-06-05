@@ -108,3 +108,41 @@ function preguntar_API_IA($pregunta){
     return json_encode($para_enviar);
     //return json_encode($resultado);
 }
+
+use Datos\DependenciaDAO;
+/**
+ * Toma la respuesta obtenida de consultar la API
+ * evalua los items necesarios y realiza la consulta a la BD
+ * arma y prepara el texto con la respuesta que será visible en la convsersacion.
+ */
+function textoRespuestaDependenciaAPI($respuesta_api){
+    $resp_json = json_decode($respuesta_api);
+    $dependencia_texto = "";
+    if(isset($resp_json->dependencia->dependencia_nombre) && isset($resp_json->localidad->localidad_nombre)){
+        //hay una dependencia al menos
+        $instance = \ConexionDB::getInstance();
+        $dependenciaDAO = new DependenciaDAO($instance->getConexion());
+        $dependencias = $dependenciaDAO->getRespuestaAPI($resp_json);
+        //print_r($dependencias);
+        if ($dependencias) {
+            $dependencia_texto = "Información detectada para su consulta: Dependencia(".
+            $resp_json->dependencia->dependencia_nombre.") Localidad(". $resp_json->localidad->localidad_nombre. "). A continuación los resultados.<br>";
+            foreach ($dependencias as $dependencia) {
+                $dependencia_texto .= "<br>" . $dependencia->getDependencia();
+                $dependencia_texto .= "<br>Dependencia localidad: " . $dependencia->getLocalidad();
+                $dependencia_texto .= "<br>Autoridad: " . $dependencia->getAutoridad();
+                $dependencia_texto .= "<br>Telefonos: " . $dependencia->getTelefonos();
+                $dependencia_texto .= "<br>";
+            }
+            
+        } else {
+            $dependencia_texto .= "No se encontraron dependencias para su consulta";
+            error_log("\n" . date('Y-m-d h:i:s') . " | " . print_r($respuesta_api, true), 3, $_ENV['LOG_PATH']);
+        }
+    }else{
+        $dependencia_texto .= "No se pudo interpretar la consulta. API:";
+        $dependencia_texto .= $respuesta_api;
+        error_log("\n" . date('Y-m-d h:i:s') . " | " . print_r($respuesta_api, true), 3, $_ENV['LOG_PATH']);
+    }
+    return $dependencia_texto;
+}
