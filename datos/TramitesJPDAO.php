@@ -12,7 +12,7 @@ class TramitesJPDAO {
     }
 
     public function getTramiteById($id) {
-        $query = "SELECT id,sector,tramite,costo,requisitos FROM tsj.tramites_jp WHERE id = :id";
+        $query = "SELECT id,sector,tramite,costo,requisitos FROM " . $_ENV['DB_SCHEMA'] . ".tramites WHERE id = :id";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(':id', $id);
         $statement->execute();
@@ -27,7 +27,7 @@ class TramitesJPDAO {
     }
 
     public function getTramiteBySector($sector) {
-        $query = "SELECT id,sector,tramite,costo,requisitos FROM tsj.tramites_jp WHERE sector = :sector";
+        $query = "SELECT id,sector,tramite,costo,requisitos FROM " . $_ENV['DB_SCHEMA'] . ".tramites WHERE sector = :sector";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(':sector', $sector);
         $statement->execute();
@@ -46,7 +46,7 @@ class TramitesJPDAO {
      * Devuelve un array de string sectores
      */
     public function getSectores() {
-        $query = "SELECT distinct sector FROM tsj.tramites_jp ORDER BY sector ASC";
+        $query = "SELECT distinct sector FROM " . $_ENV['DB_SCHEMA'] . ".tramites ORDER BY sector ASC";
         $statement = $this->connection->prepare($query);
         $statement->execute();
 

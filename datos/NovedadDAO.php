@@ -12,7 +12,7 @@ class NovedadDAO {
     }
 
     public function getNovedadById($id) {
-        $query = "SELECT id,fecha_inicio, fecha_fin, novedad, descripcion, tipo, enlace FROM tsj.novedads WHERE id = :id";
+        $query = "SELECT id,fecha_inicio, fecha_fin, novedad, descripcion, tipo, enlace FROM " . $_ENV['DB_SCHEMA'] . ".novedads WHERE id = :id";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(':id', $id);
         $statement->execute();
@@ -30,7 +30,7 @@ class NovedadDAO {
      * Devuelve un array de novedades vigente (fecha_inicio < hoy() < fecha_fin)
      */
     public function getNovedades() {
-        $query = "SELECT id,fecha_inicio,fecha_fin,novedad,descripcion,tipo,enlace FROM tsj.novedads
+        $query = "SELECT id,fecha_inicio,fecha_fin,novedad,descripcion,tipo,enlace FROM " . $_ENV['DB_SCHEMA'] . ".novedads
         WHERE fecha_inicio <= now()
         and fecha_fin >= now()
         ORDER BY fecha_inicio ASC";

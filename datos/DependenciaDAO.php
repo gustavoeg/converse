@@ -12,7 +12,7 @@ class DependenciaDAO {
     }
 
     public function getDependenciaById($id) {
-        $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM tsj.dependencias WHERE id = :id";
+        $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM " . $_ENV['DB_SCHEMA'] . ".dependencias WHERE id = :id";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(':id', $id);
         $statement->execute();
@@ -27,7 +27,7 @@ class DependenciaDAO {
     }
 
     public function getDependenciaByLocalidad($id) {
-        $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM tsj.dependencias WHERE localidad = :localidad";
+        $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM " . $_ENV['DB_SCHEMA'] . ".dependencias WHERE localidad = :localidad";
         $statement = $this->connection->prepare($query);
         $statement->bindParam(':localidad', $id);
         $statement->execute();
@@ -46,7 +46,7 @@ class DependenciaDAO {
      * Devuelve un array de string localidades
      */
     public function getLocalidades() {
-        $query = "SELECT distinct localidad FROM tsj.dependencias ORDER BY localidad ASC";
+        $query = "SELECT distinct localidad FROM " . $_ENV['DB_SCHEMA'] . ".dependencias ORDER BY localidad ASC";
         $statement = $this->connection->prepare($query);
         //$statement->bindParam(':localidad', $id);
         $statement->execute();
@@ -67,7 +67,7 @@ class DependenciaDAO {
     public function getPregunta($tipo,$localidad){
         $tipo = strtoupper($tipo);
         $localidad = strtoupper($localidad);
-        $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM tsj.dependencias 
+        $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM " . $_ENV['DB_SCHEMA'] . ".dependencias 
         WHERE localidad like '%$localidad%' and dependencia like '%$tipo%'";
         //var_dump($query);
         $statement = $this->connection->prepare($query);
@@ -98,7 +98,7 @@ class DependenciaDAO {
             //echo(" (" . ($r->localidad->localidad_confianza) . " %)</h2>");
             $tipo = strtoupper($tipo);
             $localidad = $this->getLocalidadFromAPI(strtolower($localidad));
-            $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM tsj.dependencias 
+            $query = "SELECT id,dependencia,autoridad,localidad,telefonos FROM " . $_ENV['DB_SCHEMA'] . ".dependencias 
             WHERE localidad like '%$localidad%' and dependencia like '%$tipo%'";
             //var_dump($query);
             $statement = $this->connection->prepare($query);

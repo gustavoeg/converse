@@ -28,7 +28,7 @@
             bubbleAvatarUrl: '/converse/resources/chat.png',
             widgetOpenedEventData: '.',
             sendWidgetOpenedEvent: true,
-            placeholderText: 'Escribe una consulta...',
+            placeholderText: 'O escriba una consulta...',
         }; 
     </script>
     <script src='/converse/js/widget.js'></script>

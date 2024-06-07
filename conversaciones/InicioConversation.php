@@ -29,6 +29,7 @@ class InicioConversation extends Conversation
             Button::create('Leyes usuales')->value('1'), //Enlace web
             Button::create('Guía Judicial')->value('2'),
             Button::create('Dependencias Judiciales')->value('3'), //Todas las defensorias, fiscalías, juzgados de 1ra instancia (x localidad, horario domicilio, tel, funcionarios, reseña)
+            Button::create('Dependencias En Turno')->value('8'), //Todas las defensorias, fiscalías, juzgados de 1ra instancia (x localidad, horario domicilio, tel, funcionarios, reseña)
             Button::create('Dependencias de Apoyo')->value('4'),
             Button::create('Denuncias')->value('5'),  //Armar arbol -y descripcion- (no está en pagina)
             Button::create('Trámites')->value('6'),  //Juzgado de paz
@@ -61,7 +62,7 @@ class InicioConversation extends Conversation
                 break;
             case '4':
                 # code...
-                $conv->say('Seleccionada Dependencias de Apoyo');
+                $conv->say('Seleccionó Dependencias de Apoyo');
                 $this->returnOrExit($conv);
                 break;
             case '5':
@@ -74,11 +75,15 @@ class InicioConversation extends Conversation
                 $conv->say('Por favor, seleccione el Trámite que desea realizar');
                 $conv->getBot()->startConversation(new TramiteJPConversacion());
                 break;
-                
             case '7':
                 # code...
                 $conv->say('Por favor, seleccione la Novedad para ampliar');
                 $conv->getBot()->startConversation(new NovedadesConversacion());
+                break;
+            case '8':
+                # code...
+                $conv->say('Seleccionó Dependencias En Turno');
+                $this->returnOrExit($conv);
                 break;
             
             default:
