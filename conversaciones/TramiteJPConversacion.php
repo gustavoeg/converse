@@ -81,7 +81,8 @@ class TramiteJPConversacion extends Conversation
                     }
                     });
             } else {
-                $this->say("No hay sectores");
+                $this->say("No hay Trámites para consultar");
+                $this->getBot()->startConversation(new InicioConversation());
             }
 
         } catch (\PDOException $e) {

@@ -82,6 +82,7 @@ class NovedadesConversacion extends Conversation
                     });
             } else {
                 $this->say("No hay novedades");
+                $this->getBot()->startConversation(new InicioConversation());
             }
 
         } catch (\PDOException $e) {

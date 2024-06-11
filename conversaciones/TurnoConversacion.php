@@ -84,7 +84,8 @@ class TurnoConversacion extends Conversation
                     }
                     });
             } else {
-                $this->say("No hay dependencias en turno");
+                $this->say("No hay dependencias de turno");
+                $this->getBot()->startConversation(new InicioConversation());
             }
 
         } catch (\PDOException $e) {
